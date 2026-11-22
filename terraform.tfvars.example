@@ -1,0 +1,15 @@
+aws_region = "us-east-1"
+
+# Must be globally unique
+s3_bucket_name = "inovo-avatars-yourcompany"
+
+# Required for HTTPS on the ALB
+acm_certificate_arn = "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID"
+
+# Optional: EC2 key pair for SSH access
+key_name = ""
+
+# AMI ID for your AWS account
+ami_id = "ami-0c30b7300f5fb34cd"
+
+db_password = "CHANGE_ME_STRONG_PASSWORD"
