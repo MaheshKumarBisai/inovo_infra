@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      apply:
-        description: 'Run terraform apply'
-        type: boolean
-        required: true
-        default: false
 
 env:
   AWS_REGION: us-east-1
@@ -104,14 +98,13 @@ jobs:
           retention-days: 7
 
   # -----------------------------------------------------------------
-  # Stage 4: Terraform Apply (Manual approval / dispatch)
+  # Stage 4: Terraform Apply (Runs when triggered manually via "Run workflow")
   # -----------------------------------------------------------------
   apply:
     name: Terraform Apply
     needs: [plan]
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.apply == true
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    environment: production
     permissions:
       id-token: write
       contents: read
