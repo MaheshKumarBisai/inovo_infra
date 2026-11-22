@@ -25,7 +25,7 @@ variable "private_subnet_cidrs" {
 variable "instance_type" {
   description = "EC2 instance type (Free Tier eligible)"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "db_instance_class" {
