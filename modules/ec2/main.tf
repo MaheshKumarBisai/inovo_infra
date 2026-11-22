@@ -6,7 +6,7 @@ variable "ami_id" {
 
 variable "instance_type" {
   type    = string
-  default = "t3.medium"
+  default = "t2.micro"
 }
 
 variable "subnet_id" {

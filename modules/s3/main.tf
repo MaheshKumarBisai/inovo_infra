@@ -11,8 +11,9 @@ output "bucket_arn" {
 }
 
 resource "aws_s3_bucket" "avatars" {
-  bucket = var.bucket_name
-  tags   = { Name = "inovo-avatars" }
+  bucket        = var.bucket_name != "" && var.bucket_name != "prod-inovo-bucket" ? var.bucket_name : null
+  bucket_prefix = var.bucket_name == "" || var.bucket_name == "prod-inovo-bucket" ? "inovo-avatars-" : null
+  tags          = { Name = "inovo-avatars" }
 }
 
 resource "aws_s3_bucket_public_access_block" "avatars" {

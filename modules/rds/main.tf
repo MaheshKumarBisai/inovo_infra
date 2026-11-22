@@ -56,7 +56,7 @@ resource "aws_db_instance" "main" {
   password         = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [var.rds_security_group_id]
-  backup_retention_period = 7
+  backup_retention_period = 0
   multi_az               = false
   storage_encrypted      = true
 

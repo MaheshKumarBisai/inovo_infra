@@ -23,9 +23,9 @@ variable "private_subnet_cidrs" {
 }
 
 variable "instance_type" {
-  description = "EC2 instance type"
+  description = "EC2 instance type (Free Tier eligible)"
   type        = string
-  default     = "t3.medium"
+  default     = "t2.micro"
 }
 
 variable "db_instance_class" {
@@ -64,9 +64,9 @@ variable "acm_certificate_arn" {
 }
 
 variable "ami_id" {
-  description = "Amazon Linux 2023 AMI ID"
+  description = "Amazon Linux 2023 AMI ID (leave empty to auto-lookup latest)"
   type        = string
-  default     = "ami-0c30b7300f5fb34cd"
+  default     = ""
 }
 
 variable "key_name" {
