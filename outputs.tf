@@ -28,6 +28,11 @@ output "iam_instance_profile_arn" {
   value       = aws_iam_instance_profile.ec2_s3.arn
 }
 
+output "nat_gateway_id" {
+  description = "NAT Gateway ID"
+  value       = module.vpc.nat_gateway_id
+}
+
 output "ecr_repository_urls" {
   description = "ECR repository URLs for Docker image pushes"
   value       = module.ecr.repository_urls

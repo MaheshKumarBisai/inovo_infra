@@ -122,34 +122,3 @@ module "alb" {
   gateway_instance_id   = module.ec2_gateway.instance_id
   backend_instance_id   = module.ec2_backend.instance_id
 }
-
-# -------------------------------------------------------
-# Outputs
-# -------------------------------------------------------
-output "alb_dns_name" {
-  value = module.alb.alb_dns_name
-}
-
-output "backend_private_ip" {
-  value = module.ec2_backend.private_ip
-}
-
-output "gateway_private_ip" {
-  value = module.ec2_gateway.private_ip
-}
-
-output "rds_endpoint" {
-  value = module.rds.rds_endpoint
-}
-
-output "s3_bucket_name" {
-  value = module.s3.bucket_name
-}
-
-output "nat_gateway_id" {
-  value = module.vpc.nat_gateway_id
-}
-
-output "iam_instance_profile_arn" {
-  value = aws_iam_instance_profile.ec2_s3.arn
-}
