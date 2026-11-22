@@ -32,5 +32,9 @@ tfplan
 .env*
 !.env.deployment.example
 
+# Local cleanup scripts
+cleanup-orphans.sh
+cleanup*.sh
+
 # OS files
 .DS_Store
