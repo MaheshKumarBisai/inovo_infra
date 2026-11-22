@@ -27,6 +27,11 @@ variable "backend_instance_id" {
   type        = string
 }
 
+locals {
+  # A valid certificate must be provided and must not contain the dummy placeholder
+  has_valid_certificate = var.acm_certificate_arn != "" && !can(regex("ACCOUNT_ID|CERTIFICATE_ID", var.acm_certificate_arn))
+}
+
 output "alb_dns_name" {
   value = aws_lb.main.dns_name
 }
@@ -122,7 +127,7 @@ resource "aws_lb_listener" "http" {
 
   # If HTTPS certificate is provided, redirect HTTP 80 -> HTTPS 443
   dynamic "default_action" {
-    for_each = var.acm_certificate_arn != "" ? [1] : []
+    for_each = local.has_valid_certificate ? [1] : []
     content {
       type = "redirect"
 
@@ -136,7 +141,7 @@ resource "aws_lb_listener" "http" {
 
   # If no HTTPS certificate, forward port 80 directly to Frontend
   dynamic "default_action" {
-    for_each = var.acm_certificate_arn == "" ? [1] : []
+    for_each = !local.has_valid_certificate ? [1] : []
     content {
       type             = "forward"
       target_group_arn = aws_lb_target_group.frontend.arn
@@ -146,7 +151,7 @@ resource "aws_lb_listener" "http" {
 
 # If no HTTPS certificate, route /api/v1/* and /media/* on HTTP to Gateway
 resource "aws_lb_listener_rule" "http_api" {
-  count        = var.acm_certificate_arn == "" ? 1 : 0
+  count        = !local.has_valid_certificate ? 1 : 0
   listener_arn = aws_lb_listener.http.arn
   priority     = 10
 
@@ -166,7 +171,7 @@ resource "aws_lb_listener_rule" "http_api" {
 # HTTPS Listener (Port 443) - only created when certificate ARN is provided
 # -------------------------------------------------------
 resource "aws_lb_listener" "https" {
-  count             = var.acm_certificate_arn != "" ? 1 : 0
+  count             = local.has_valid_certificate ? 1 : 0
   load_balancer_arn = aws_lb.main.id
   port              = 443
   protocol          = "HTTPS"
@@ -180,7 +185,7 @@ resource "aws_lb_listener" "https" {
 }
 
 resource "aws_lb_listener_rule" "https_api" {
-  count        = var.acm_certificate_arn != "" ? 1 : 0
+  count        = local.has_valid_certificate ? 1 : 0
   listener_arn = aws_lb_listener.https[0].arn
   priority     = 10
 
