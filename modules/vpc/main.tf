@@ -41,7 +41,7 @@ output "private_subnet_ids" {
 }
 
 output "nat_gateway_id" {
-  value = aws_nat_gateway.main.id
+  value = var.create_nat_gateway ? aws_nat_gateway.main[0].id : null
 }
 
 resource "aws_vpc" "main" {
@@ -137,7 +137,7 @@ resource "aws_route_table" "private" {
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
+    nat_gateway_id = var.create_nat_gateway ? aws_nat_gateway.main[0].id : null
   }
 
   tags = {
